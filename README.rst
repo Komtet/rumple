@@ -167,7 +167,7 @@ Iterating through a container
 Changelog
 =========
 
-0.1.0 (17.07.2015)
+0.1.0 (15.07.2015)
 ------------------
 
 - First release
