@@ -4,6 +4,9 @@ Rumple
 
 Simple Dependency Injection Container inspired by `Pimple <http://pimple.sensiolabs.org/>`_.
 
+.. image:: https://img.shields.io/travis/Kilte/rumple.svg?style=flat-square
+    :target: https://travis-ci.org/Kilte/rumple
+
 Installation
 ============
 
