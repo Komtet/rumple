@@ -38,6 +38,28 @@ class ExtendedProvider(object):
         return service_for_extend
 
 
+class PrefixProvider(object):
+    __prefix__ = 'vendor_prefix.'
+
+    @share()
+    def service(self, container):
+        return Service(container)
+
+    @share('renamed_service')
+    def another_service(self, container):
+        return Service(container)
+
+    @extend('vendor_prefix.renamed_service')
+    def extended_factory(self, service, container):
+        assert service.container is container
+        service.container = 'new_container'
+        return service
+
+    @value()
+    def value(self):
+        return 'value'
+
+
 class TestContainer(TestCase):
     def test_init_values(self):
         container = Container({'key': 'value'})
@@ -143,3 +165,21 @@ class TestContainer(TestCase):
         self.assertEqual(provider._ignored(), 'value')
         self.assertNotIn('_ignored', container)
         self.assertEqual(container['service_for_extend'].container, 'new_container')
+
+    def test_prefix_provider(self):
+        container = Container()
+        provider = PrefixProvider()
+        container.register(provider, {'additional_option': 'value'})
+        self.assertIsInstance(container['vendor_prefix.service'], Service)
+        self.assertIsInstance(container['vendor_prefix.renamed_service'], Service)
+        self.assertEqual(container['vendor_prefix.renamed_service'].container, 'new_container')
+        self.assertEqual(container['vendor_prefix.value'], 'value')
+        self.assertEqual(container['vendor_prefix.additional_option'], 'value')
+        expectedKeys = sorted([
+            'vendor_prefix.service',
+            'vendor_prefix.renamed_service',
+            'vendor_prefix.value',
+            'vendor_prefix.additional_option'
+        ])
+        actualKeys = sorted([key for key, _ in container])
+        self.assertEqual(expectedKeys, actualKeys)

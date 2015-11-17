@@ -141,16 +141,31 @@ Providers
             assert isinstance(service_for_extend, object)
             return str(object)
 
+    class SomeLibProvider(object):
+        __prefix__ = 'some_lib.'
+
+        @share()
+        def service(self):
+            return object()
+
+        @extend('some_lib.service')
+        def extend(self, service):
+            return str(service)
+
 
     container = Container()
     container.register(Provider())
-    container.register(AnotherProvider())
+    container.register(AnotherProvider(), {'additional_option': 'value1'})
+    container.register(SomeLibProvider(), {'additional_option': 'value2'})
     assert isinstance(container['service'], object)
     assert isinstance(container['renamed_service'], object)
     assert isinstance(container['service_for_extend'], str)
     assert container['first_option'] == 'value_1'
     assert container['second_option_renamed'] == 'value_2'
     assert '_ignored' not in container
+    assert container['additional_option'] == 'value1'
+    assert isinstance(container['some_lib.service'], str)
+    assert container['some_lib.additional_option'] == 'value2'
 
 Iterating through a container
 -----------------------------
@@ -169,6 +184,11 @@ Iterating through a container
 
 Changelog
 =========
+
+0.2.0 (xx.xx.xxxx)
+------------------
+
+- Ablity to specify vendor prefix in providers.
 
 0.1.0 (15.07.2015)
 ------------------

@@ -66,17 +66,18 @@ class Container(object):
         self.__factories[key] = new_factory
 
     def register(self, provider, values=None):
+        prefix = getattr(provider, '__prefix__', '') + '{0}'
         for attr in filter(lambda x: not x.startswith('_'), dir(provider)):
             attr = getattr(provider, attr)
             if hasattr(attr, Strategy.SHARE):
-                self[getattr(attr, Strategy.SHARE)] = attr
+                self[prefix.format(getattr(attr, Strategy.SHARE))] = attr
             elif hasattr(attr, Strategy.EXTEND):
                 self.extend(getattr(attr, Strategy.EXTEND), attr)
             elif hasattr(attr, Strategy.VALUE):
-                self[getattr(attr, Strategy.VALUE)] = attr()
+                self[prefix.format(getattr(attr, Strategy.VALUE))] = attr()
         if isinstance(values, dict):
             for key, value in values.items():
-                self[key] = value
+                self[prefix.format(key)] = value
 
 
 def _is_factory_takes_container(factory):
