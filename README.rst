@@ -4,8 +4,8 @@ Rumple
 
 Simple Dependency Injection Container inspired by `Pimple <http://pimple.sensiolabs.org/>`_.
 
-.. image:: https://img.shields.io/travis/Kilte/rumple.svg?style=flat-square
-    :target: https://travis-ci.org/Kilte/rumple
+.. image:: https://img.shields.io/travis/Komtet/rumple.svg?style=flat-square
+    :target: https://travis-ci.org/Komtet/rumple
 
 Installation
 ============
@@ -20,7 +20,7 @@ Manually:
 
 .. code:: sh
 
-    $ git clone https://github.com/Kilte/rumple
+    $ git clone https://github.com/Komtet/rumple
     $ cd rumple
     # python setup.py install
 
