@@ -185,10 +185,11 @@ Iterating through a container
 Changelog
 =========
 
-0.2.0 (xx.xx.xxxx)
+0.2.0 (25.01.2019)
 ------------------
 
-- Ablity to specify vendor prefix in providers.
+- Ablity to specify vendor prefix in providers
+- Fix of `inspect.getargspec()` deprecation
 
 0.1.0 (15.07.2015)
 ------------------

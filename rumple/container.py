@@ -1,5 +1,10 @@
 import inspect
 
+try:
+    getargspec = inspect.getfullargspec
+except AttributeError:
+    getargspec = inspect.getargspec
+
 from rumple.decorators import Strategy
 
 __all__ = ['Container']
@@ -93,7 +98,7 @@ def _whether_takes_container(factory, num_args):
         to_inspect = factory.__call__
     else:
         to_inspect = factory
-    total_args = len(inspect.getargspec(to_inspect).args)
+    total_args = len(getargspec(to_inspect).args)
     is_method = inspect.ismethod(to_inspect)
     return (
         (is_method and total_args == num_args + 1) or
